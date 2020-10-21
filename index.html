@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina Pokemon</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col"></div>
+            
+            <div class="card col p-3">
+                <img class="card-img-top" id="img" src="card.png">
+                <div class="card-body">
+                <h4 class="card-title" id="title">Who's That Pokémon?</h4>
+                <p class="card-text" id="text">
+                    Vamos a intentar adivinar al pokemon.<br>
+                    Piensa en un pokemon y dale a <strong>¡Jugar!</strong>
+                </p>
+                <p style="color: cornflowerblue">
+                    Nota: Los datos son basados de la pagina de Bulbapedia. <br>
+                    Si quieres saber mas sobre el pokemon que piensas <br>
+                    Visita la pagina <strong><a href="https://bulbapedia.bulbagarden.net/wiki/Main_Page">aquí</a></strong>
+                </p>
+                
+                <a href="#" class="btn btn-primary" id="play"><strong>¡Jugar!</strong></a>
+                </div>
+            </div>
+            
+            <div class="col"></div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/pokeapi-js-wrapper/dist/index.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
