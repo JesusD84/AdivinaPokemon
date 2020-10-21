@@ -62,6 +62,7 @@ play.addEventListener('click', () => {
     next();
 
     function next() {
+        console.log(resPokes);
         count++;
         let imageUrl = undefined;
 
@@ -88,8 +89,8 @@ play.addEventListener('click', () => {
                 denyButtonText: `No`,
                 cancelButtonText: `No lo se`
             }).then((result) => {
+                document.getElementById('title').innerHTML = spinner;
                 if (result.isConfirmed) {
-                    document.getElementById('title').innerHTML = spinner;
 
                     function findPokes(response) {
                         newPokes = [];
@@ -247,68 +248,194 @@ play.addEventListener('click', () => {
                             break;
                     }
                 } else if (result.isDenied) {
-                    if(indexIdPreguntas[askRand] === idSer) {
+                    function findNoPokes (response) {
                         newPokes = [];
-                        let resPokesCopy = resPokes, n = 0;
-                        resPokesCopy.forEach(poke => {
-                            P.getPokemonSpeciesByName(poke)
-                            .then(function(response) {
-                                n++
-                                switch (indexIdPreguntas[askRand][askRand2]) {
-                                    case 1:
-                                        if(response.is_legendary === false) { newPokes.push(response.name) }
-                                        break;
-                                    case 2:
-                                        if(response.is_mythical === false ) { newPokes.push(response.name) }
-                                        break;
-                                    case 3:
-                                        if(response.evolves_from_species === null) { newPokes.push(response.name) }
-                                        break;
-                                    case 4:
-                                        if(response.forms_switchable === false) { newPokes.push(response.name) }
-                                        break;
-                                }
-
-                                if(n === resPokesCopy.length) {
-                                    document.getElementById('title').innerHTML = '';
-                                    let pokes = [];
-                                    resPokes.forEach(poke => {
-                                        if(newPokes.includes(poke)) {
-                                            pokes.push(poke);
-                                        }
-                                    });
-                                    if(pokes.length === 0) {
-                                        pokes.push(resPokes[0]);
-                                    }
-                                    resPokes = pokes;
-
-                                    indexIdPreguntas[askRand].splice(askRand2, 1);
-                                    indexPreguntas[askRand].splice(askRand2, 1);
-                                    
-                                    if(indexIdPreguntas[askRand].length === 0) {
-                                        indexIdPreguntas.splice(askRand, 1);
-                                        indexPreguntas.splice(askRand, 1);
-                                        preguntas.splice(askRand, 1);
-                                    }
-
-                                    next();
-                                }
-                            }); 
+                        let pokes = response.pokemon_species;
+                        pokes.forEach(poke => {
+                            newPokes.push(poke.name);
                         });
-                    } else {
-                        indexIdPreguntas[askRand].splice(askRand2, 1);
-                        indexPreguntas[askRand].splice(askRand2, 1);
-                    
-                        if(indexIdPreguntas[askRand] === idFormas) {
-                            urlImg.splice(askRand2, 1)
-                        }
+
+                        newPokes.forEach(poke => {
+                            if(resPokes.includes(poke)) {
+                                let i = resPokes.indexOf(poke);
+                                resPokes.splice(i, 1);
+                            }
+                        });
+                    }
+
+                    switch (indexIdPreguntas[askRand]) {
+                        case idColors:
+                            P.getPokemonColorByName(indexIdPreguntas[askRand][askRand2])
+                            .then(function(response) {
+                                document.getElementById('title').innerHTML = '';
+                                findNoPokes(response);
+                                
+                                indexIdPreguntas[askRand].splice(askRand2, 1);
+                                indexPreguntas[askRand].splice(askRand2, 1);
+                            
+                                if(indexIdPreguntas[askRand] === idFormas) {
+                                    urlImg.splice(askRand2, 1)
+                                }
+                                
+                                if(indexIdPreguntas[askRand].length === 0) {
+                                    indexIdPreguntas.splice(askRand, 1);
+                                    indexPreguntas.splice(askRand, 1);
+                                    preguntas.splice(askRand, 1);
+                                }
+
+                                next();
+                            });
+                        break;
+                        case idGeneraciones:
+                            P.getGenerationByName(indexIdPreguntas[askRand][askRand2])
+                            .then(function(response) {
+                                document.getElementById('title').innerHTML = '';
+                                findNoPokes(response);
+                                
+                                indexIdPreguntas[askRand].splice(askRand2, 1);
+                                indexPreguntas[askRand].splice(askRand2, 1);
+                            
+                                if(indexIdPreguntas[askRand] === idFormas) {
+                                    urlImg.splice(askRand2, 1)
+                                }
+                                
+                                if(indexIdPreguntas[askRand].length === 0) {
+                                    indexIdPreguntas.splice(askRand, 1);
+                                    indexPreguntas.splice(askRand, 1);
+                                    preguntas.splice(askRand, 1);
+                                }
+
+                                next();
+                            });
+                        break;
+                        case idHabitats:
+                            P.getPokemonHabitatByName(indexIdPreguntas[askRand][askRand2])
+                            .then(function(response) {
+                                document.getElementById('title').innerHTML = '';
+                                findNoPokes(response);
+                                
+                                indexIdPreguntas[askRand].splice(askRand2, 1);
+                                indexPreguntas[askRand].splice(askRand2, 1);
+                            
+                                if(indexIdPreguntas[askRand] === idFormas) {
+                                    urlImg.splice(askRand2, 1)
+                                }
+                                
+                                if(indexIdPreguntas[askRand].length === 0) {
+                                    indexIdPreguntas.splice(askRand, 1);
+                                    indexPreguntas.splice(askRand, 1);
+                                    preguntas.splice(askRand, 1);
+                                }
+
+                                next();
+                            });
+                        break;
+                        case idFormas:
+                            P.getPokemonShapeByName(indexIdPreguntas[askRand][askRand2])
+                            .then(function(response) {
+                                document.getElementById('title').innerHTML = '';
+                                findNoPokes(response);
+                                
+                                indexIdPreguntas[askRand].splice(askRand2, 1);
+                                indexPreguntas[askRand].splice(askRand2, 1);
+                            
+                                if(indexIdPreguntas[askRand] === idFormas) {
+                                    urlImg.splice(askRand2, 1)
+                                }
+                                
+                                if(indexIdPreguntas[askRand].length === 0) {
+                                    indexIdPreguntas.splice(askRand, 1);
+                                    indexPreguntas.splice(askRand, 1);
+                                    preguntas.splice(askRand, 1);
+                                }
+
+                                next();
+                            });
+                        break;
+                        case idTipos:
+                            P.getTypeByName(indexIdPreguntas[askRand][askRand2])
+                            .then(function(response) {
+                                document.getElementById('title').innerHTML = '';
+                                
+                                newPokes = [];
+                                let pokes = response.pokemon;
+                                pokes.forEach(poke => {
+                                    newPokes.push(poke.pokemon.name);
+                                });
+
+                                newPokes.forEach(poke => {
+                                    if(resPokes.includes(poke)) {
+                                        let i = resPokes.indexOf(poke);
+                                        resPokes.splice(i, 1);
+                                    }
+                                });
+                                
+                                indexIdPreguntas[askRand].splice(askRand2, 1);
+                                indexPreguntas[askRand].splice(askRand2, 1);
+                            
+                                if(indexIdPreguntas[askRand] === idFormas) {
+                                    urlImg.splice(askRand2, 1)
+                                }
+                                
+                                if(indexIdPreguntas[askRand].length === 0) {
+                                    indexIdPreguntas.splice(askRand, 1);
+                                    indexPreguntas.splice(askRand, 1);
+                                    preguntas.splice(askRand, 1);
+                                }
+
+                                next();
+                            });
+                        break;
+                        case idSer:
+                            newPokes = [];
+                            let resPokesCopy = resPokes, n = 0;
+                            resPokesCopy.forEach(poke => {
+                                P.getPokemonSpeciesByName(poke)
+                                .then(function(response) {
+                                    n++
+                                    switch (indexIdPreguntas[askRand][askRand2]) {
+                                        case 1:
+                                            if(response.is_legendary === false) { newPokes.push(response.name) }
+                                            break;
+                                        case 2:
+                                            if(response.is_mythical === false ) { newPokes.push(response.name) }
+                                            break;
+                                        case 3:
+                                            if(response.evolves_from_species === null) { newPokes.push(response.name) }
+                                            break;
+                                        case 4:
+                                            if(response.forms_switchable === false) { newPokes.push(response.name) }
+                                            break;
+                                    }
+
+                                    if(n === resPokesCopy.length) {
+                                        document.getElementById('title').innerHTML = '';
+                                        let pokes = [];
+                                        resPokes.forEach(poke => {
+                                            if(newPokes.includes(poke)) {
+                                                pokes.push(poke);
+                                            }
+                                        });
+                                        if(pokes.length === 0) {
+                                            pokes.push(resPokes[0]);
+                                        }
+                                        resPokes = pokes;
+
+                                        indexIdPreguntas[askRand].splice(askRand2, 1);
+                                        indexPreguntas[askRand].splice(askRand2, 1);
+                                        
+                                        if(indexIdPreguntas[askRand].length === 0) {
+                                            indexIdPreguntas.splice(askRand, 1);
+                                            indexPreguntas.splice(askRand, 1);
+                                            preguntas.splice(askRand, 1);
+                                        }
+
+                                        next();
+                                    }
+                                }); 
+                            });
+                        break;
                         
-                        if(indexIdPreguntas[askRand].length === 0) {
-                            indexIdPreguntas.splice(askRand, 1);
-                            indexPreguntas.splice(askRand, 1);
-                            preguntas.splice(askRand, 1);
-                        }
-                        next();
                     }
 
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
