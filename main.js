@@ -61,6 +61,7 @@ play.addEventListener('click', () => {
     document.getElementById('title').innerHTML = '';
     document.getElementById('text').innerHTML = '';
 
+    /* Obtener toda la liste de los pokemon */
     P.getPokemonsList()
     .then(function (response) {
         let pokes = response.results
@@ -77,15 +78,14 @@ play.addEventListener('click', () => {
         let imageUrl = undefined;
 
         if(preguntas.length > 0 && resPokes.length !== 1) {
-            do {
-                askRand = Math.floor(Math.random() * preguntas.length);
-            } while (resPokes.length === 0 && askRand === 5);
+            //Obtener una pregunta al azar
+            askRand = Math.floor(Math.random() * preguntas.length);
             askRand2 = Math.floor(Math.random() * indexPreguntas[askRand].length);
 
             if(indexIdPreguntas[askRand] === idFormas) {
                 imageUrl = urlImg[askRand2];
             }
-            
+            //Mostrar la pregunta obtenida
             Swal.fire({
                 title: `¿Tu pokemon ${preguntas[askRand]}${indexPreguntas[askRand][askRand2]}?`,
                 html: `<span>Pregunta #${count}</span>`,
@@ -100,8 +100,10 @@ play.addEventListener('click', () => {
                 cancelButtonText: `No lo se`
             }).then((result) => {
                 document.getElementById('title').innerHTML = spinner;
+                //La respuesta es SI
                 if (result.isConfirmed) {
 
+                    //Descartar pokemon que NO cumplen con la pregunta
                     function findPokes(response) {
                         newPokes = [];
                         let pokes = response.pokemon_species;
@@ -124,8 +126,9 @@ play.addEventListener('click', () => {
                             resPokes = pokes;
                         }
                     }
-
+                    //Tipo de pregunta?
                     switch (indexIdPreguntas[askRand]) {
+                        //Color
                         case idColors:
                             P.getPokemonColorByName(indexIdPreguntas[askRand][askRand2])
                             .then(function(response) {
@@ -137,6 +140,7 @@ play.addEventListener('click', () => {
                                 next();
                             });
                             break;
+                        //Generacion
                         case idGeneraciones:
                             P.getGenerationByName(indexIdPreguntas[askRand][askRand2])
                             .then(function(response) {
@@ -148,6 +152,7 @@ play.addEventListener('click', () => {
                                 next();
                             });
                             break;
+                        //Habitat
                         case idHabitats:
                             P.getPokemonHabitatByName(indexIdPreguntas[askRand][askRand2])
                             .then(function(response) {
@@ -159,6 +164,7 @@ play.addEventListener('click', () => {
                                 next();
                             });
                             break;
+                        //Forma
                         case idFormas:
                             P.getPokemonShapeByName(indexIdPreguntas[askRand][askRand2])
                             .then(function(response) {
@@ -170,6 +176,7 @@ play.addEventListener('click', () => {
                                 next();
                             });
                             break;
+                        //Tipo
                         case idTipos:
                             P.getTypeByName(indexIdPreguntas[askRand][askRand2])
                             .then(function(response) {
@@ -207,6 +214,7 @@ play.addEventListener('click', () => {
                                 next();
                             });
                             break;
+                        //Caracteristica unica
                         case idSer:
                             newPokes = [];
                             let resPokesCopy = resPokes, n = 0;
@@ -257,7 +265,9 @@ play.addEventListener('click', () => {
                             });
                             break;
                     }
+                //Si la respuesta fue un NO
                 } else if (result.isDenied) {
+                    //Descartar Pokemon que SI cumplen la pregunta
                     function findNoPokes (response) {
                         newPokes = [];
                         let pokes = response.pokemon_species;
@@ -447,8 +457,9 @@ play.addEventListener('click', () => {
                         break;
                         
                     }
-
+                //Si el resultado fue un No lo se
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    //Descartar la pregunta de la lista de preguntas por hacer
                     indexIdPreguntas[askRand].splice(askRand2, 1);
                     indexPreguntas[askRand].splice(askRand2, 1);
 
@@ -465,7 +476,7 @@ play.addEventListener('click', () => {
                     next();
                 }
             });
-
+        //Si se acabaron las preguntas, o solo queda un pokemon en el array
         } else if(resPokes.length === 1 || preguntas.length === 0) {
             P.getPokemonSpeciesByName(resPokes[0])
             .then(function(response) {
