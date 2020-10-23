@@ -1,6 +1,7 @@
 /* Adivina quien? Version Pokemon */
 const P = new Pokedex.Pokedex();
 
+/* Utilidades */
 function zeroPad(num, count = 3)
 {
   var numZeropad = num + '';
@@ -53,13 +54,22 @@ let indexIdPreguntas = [idColors, idGeneraciones, idHabitats, idFormas, idTipos,
 let indexPreguntas = [colors, generaciones, habitats, formas, tipos, ser];
 let preguntas = ['es de color predominante ', 'es de la region de ', 'vive en ', '', 'es de tipo ', ''];
 
-
+/* Start */
 play.addEventListener('click', () => {
     play.style.display = 'none';
     document.getElementById('img').setAttribute('src', '');
     document.getElementById('title').innerHTML = '';
     document.getElementById('text').innerHTML = '';
-    next();
+
+    P.getPokemonsList()
+    .then(function (response) {
+        let pokes = response.results
+        pokes.forEach(poke => {
+            resPokes.push(poke.name);
+        });
+        next();
+    });
+
 
     function next() {
         console.log(resPokes);
