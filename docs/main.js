@@ -62,8 +62,9 @@ play.addEventListener('click', () => {
     document.getElementById('text').innerHTML = '';
 
     /* Obtener toda la liste de los pokemon */
-    P.getPokemonsList()
+    P.getPokemonSpeciesList()
     .then(function (response) {
+        console.log(response);
         let pokes = response.results
         pokes.forEach(poke => {
             resPokes.push(poke.name);
